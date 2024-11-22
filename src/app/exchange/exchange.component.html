@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="convertCurrency()">
+  <div class="exchange-component">
+    <div class="from-currency">
+      <select formControlName="fromCurrency">
+        @for( currency of currenciesList; track currency){
+        <option [value]=" currency.symbol">{{currency.symbol + " " +
+          currency.fullName}}</option>
+        }
+
+      </select>
+      <input formControlName="fromAmount" name="fromAmount" type="number">
+
+    </div>
+
+    <img src="assets/images/swap.svg" (click)="swapValues()" />
+
+    <div class="to-currency">
+      <select formControlName="toCurrency">
+        @for( currency of currenciesList; track currency){
+        <option [value]=" currency.symbol">{{currency.symbol + " " +
+          currency.fullName}}</option>
+        }
+      </select>
+      <input formControlName="toAmount" type="number">
+    </div>
+  </div>
+  <button type="submit" class="convert-btn"> <b> Convert</b> </button>
+</form>

@@ -1,0 +1,16 @@
+<header class="page-header">
+  <div class="nav-logo-container">
+    <img class="side-menu-icon" (click)="openCloseMenu()" src="assets/images/menu.svg" />
+    <img alt="appLogo" src="assets/images/logo.svg" />
+    <h1>Exchanger</h1>
+  </div>
+
+  <div [class.nav-links]="!sideMenuOpen" [class.side-menu]="sideMenuOpen">
+    @if (sideMenuOpen) {
+    <img src="assets/images/close.svg" (click)="openCloseMenu()" />
+    }
+
+    <a href="./USD"> USD </a>
+    <a href="./EUR"> EUR </a>
+  </div>
+</header>
