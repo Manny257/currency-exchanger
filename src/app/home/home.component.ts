@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ExchangeComponent } from '../exchange/exchange.component';
 import { Router } from '@angular/router';
+import { ConversionsListComponent } from '../conversions-list/conversions-list.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ExchangeComponent],
+  imports: [ExchangeComponent, ConversionsListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

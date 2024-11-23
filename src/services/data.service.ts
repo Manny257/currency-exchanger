@@ -4,6 +4,7 @@ import {
   convertResponse,
   currenciesResponse,
   currency,
+  latestRateResponse,
 } from '../models/currencies.model';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class DataService {
   readonly API_KEY = 'a77357b425c1dcad9399870709b31192';
   currenciesEndPoint = `http://data.fixer.io/api/symbols?access_key=${this.API_KEY}`;
   convertEndPoint = `http://data.fixer.io/api/convert?access_key=${this.API_KEY}`;
-
+  latestRateEndPoint = `https://data.fixer.io/api/latest?access_key=${this.API_KEY}`;
   getCurrencies() {
     return new Promise((resolve, reject) => {
       this.http
@@ -47,8 +48,20 @@ export class DataService {
         .get<convertResponse>(this.convertEndPoint, { params })
         .subscribe((response) => {
           if (response.success) {
-            console.log('response of rates is: ', response);
             resolve(response.result);
+          } else reject('data not found');
+        });
+    });
+  }
+
+  getLatestRate(base: string, symbol: string) {
+    return new Promise<number>((resolve, reject) => {
+      const params = new HttpParams().set('base', base).set('symbols', symbol);
+      this.http
+        .get<latestRateResponse>(this.latestRateEndPoint, { params })
+        .subscribe((response) => {
+          if (response.success) {
+            resolve(response.rates[symbol]);
           } else reject('data not found');
         });
     });

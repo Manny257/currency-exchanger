@@ -1,0 +1,28 @@
+<div class="list-container">
+  <div class="list-items">
+    <table>
+      @for (amount of amountsList; track amount){
+      <tr>
+        <td>{{amount}}</td>
+        <td> <b> {{fromCurrency}}</b></td>
+        <td>{{amount*latestRate}}</td>
+        <td> <b> {{toCurrency}}</b> </td>
+      </tr>
+      }
+
+    </table>
+  </div>
+
+  <div class="list-items">
+    <ul>
+      @for (amount of amountsList; track amount){
+      <tr>
+        <td>{{amount}}</td>
+        <td> <b>{{toCurrency}} </b> </td>
+        <td>{{amount/latestRate}}</td>
+        <td><b> {{fromCurrency}}</b></td>
+      </tr>
+      }
+    </ul>
+  </div>
+</div>

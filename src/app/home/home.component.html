@@ -1,3 +1,9 @@
-<app-exchange (fromCurrencyChanged)="changeFromCurrency($event)"
-  (toCurrencyChanged)="changeToCurrency($event)"></app-exchange>
-<button (click)="openDetailsPage()"> <b>Preview Full Details</b> </button>
+<div class="home-upper-container">
+  <app-exchange (fromCurrencyChanged)="changeFromCurrency($event)"
+    (toCurrencyChanged)="changeToCurrency($event)"></app-exchange>
+  <button (click)="openDetailsPage()"> <b>Preview Full Details</b> </button>
+</div>
+
+<div class="home-lower-container">
+  <app-conversions-list [fromCurrency]="fromCurrency" [toCurrency]="toCurrency"></app-conversions-list>
+</div>

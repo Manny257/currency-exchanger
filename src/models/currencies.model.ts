@@ -15,3 +15,11 @@ export interface currency {
   symbol: string;
   fullName: string;
 }
+
+export interface latestRateResponse {
+  success: string;
+  timestamp: number;
+  rates: { [key: string]: number };
+  date: string;
+  base: string;
+}
