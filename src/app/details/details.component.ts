@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExchangeComponent } from '../exchange/exchange.component';
 import { ConversionsListComponent } from '../conversions-list/conversions-list.component';
 import { currency } from '../../models/currencies.model';
@@ -20,13 +20,14 @@ import { Subscription } from 'rxjs';
   styleUrl: './details.component.scss',
 })
 export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
   @ViewChild('exchangeComponent') exchangeComponent: ExchangeComponent | null =
     null;
   fromCurrency!: currency;
   toCurrency!: currency;
   fromCurrencySubscribtion!: Subscription;
   toCurrencySubscribtion!: Subscription;
+  fixedCurrenciesList = ['USD', 'EUR', 'AUD', 'CAD'];
 
   ngOnInit() {
     this.fromCurrencySubscribtion = this.dataService.fromCurrency.subscribe(
@@ -42,6 +43,10 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngAfterViewInit() {
     this.exchangeComponent?.form.controls.fromCurrency.disable();
+  }
+
+  navigateBack() {
+    this.router.navigate(['./home']);
   }
 
   ngOnDestroy() {

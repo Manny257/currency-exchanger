@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { currency } from '../../models/currencies.model';
+import { currency, latestRateResponse } from '../../models/currencies.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,9 +13,14 @@ import { Subscription } from 'rxjs';
 export class ConversionsListComponent implements OnInit, OnDestroy {
   fromCurrency!: currency | null;
   toCurrency!: currency | null;
-  @Input() amountsList = [1, 25, 50, 100];
-  @Input() currenciesList = ['USD', 'EUR', 'AUD', 'CAD'];
-  latestRate = 2;
+  @Input() amountsList: number[] = [];
+  @Input() currenciesList: string[] = [];
+  latestRate: { [key: string]: number } = {
+    USD: 2,
+    EUR: 3,
+    AUD: 1.5,
+    CAD: 2.5,
+  };
   fromCurrencySubscribtion!: Subscription;
   toCurrencySubscribtion!: Subscription;
 
@@ -35,10 +40,16 @@ export class ConversionsListComponent implements OnInit, OnDestroy {
   }
 
   getLatestRate() {
+    let symbols = '';
+    if (this.currenciesList.length > 0) {
+      symbols = this.currenciesList.toString();
+    } else {
+      symbols = this.toCurrency?.symbol ? this.toCurrency?.symbol : '';
+    }
     // this.dataService
-    //   .getLatestRate(this.fromCurrency, this.toCurrency)
-    //   .then((rate) => {
-    //     this.latestRate = rate;
+    //   .getLatestRate(this.fromCurrency, symbols)
+    //   .then((rates) => {
+    //     this.latestRate = rates;
     //   });
   }
 

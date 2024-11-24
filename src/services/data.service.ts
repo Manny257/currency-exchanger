@@ -15,8 +15,7 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   private readonly API_KEY = 'a77357b425c1dcad9399870709b31192';
-  private readonly FROM_CURRENCY_KEY = 'fromCurrency';
-  private readonly TO_CURRENCY_KEY = 'toCurrency';
+
   currenciesEndPoint = `http://data.fixer.io/api/symbols?access_key=${this.API_KEY}`;
   convertEndPoint = `http://data.fixer.io/api/convert?access_key=${this.API_KEY}`;
   latestRateEndPoint = `https://data.fixer.io/api/latest?access_key=${this.API_KEY}`;
@@ -60,14 +59,14 @@ export class DataService {
     });
   }
 
-  getLatestRate(base: string, symbol: string) {
-    return new Promise<number>((resolve, reject) => {
-      const params = new HttpParams().set('base', base).set('symbols', symbol);
+  getLatestRate(base: string, symbols: string) {
+    return new Promise((resolve, reject) => {
+      const params = new HttpParams().set('base', base).set('symbols', symbols);
       this.http
         .get<latestRateResponse>(this.latestRateEndPoint, { params })
         .subscribe((response) => {
           if (response.success) {
-            resolve(response.rates[symbol]);
+            resolve(response.rates);
           } else reject('data not found');
         });
     });

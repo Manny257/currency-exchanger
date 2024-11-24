@@ -1,3 +1,4 @@
 <h2> {{fromCurrency.fullName}} and {{toCurrency.fullName}} Details </h2>
 <app-exchange #exchangeComponent [defaultFromCurrency]="fromCurrency" [defaultToCurrency]="toCurrency"></app-exchange>
-<app-conversions-list></app-conversions-list>
+<button (click)="navigateBack()"> <b>Back</b></button>
+<app-conversions-list [currenciesList]="fixedCurrenciesList"></app-conversions-list>
