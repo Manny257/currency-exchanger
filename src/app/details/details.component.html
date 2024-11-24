@@ -1,2 +1,3 @@
-<p>{{fromCurrency}}</p>
-<p>{{toCurrency}}</p>
+<h2> {{fromCurrency.fullName}} and {{toCurrency.fullName}} Details </h2>
+<app-exchange #exchangeComponent [defaultFromCurrency]="fromCurrency" [defaultToCurrency]="toCurrency"></app-exchange>
+<app-conversions-list></app-conversions-list>

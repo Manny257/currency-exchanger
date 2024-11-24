@@ -6,6 +6,7 @@ import {
   currency,
   latestRateResponse,
 } from '../models/currencies.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +14,15 @@ import {
 export class DataService {
   constructor(private http: HttpClient) {}
 
-  readonly API_KEY = 'a77357b425c1dcad9399870709b31192';
+  private readonly API_KEY = 'a77357b425c1dcad9399870709b31192';
+  private readonly FROM_CURRENCY_KEY = 'fromCurrency';
+  private readonly TO_CURRENCY_KEY = 'toCurrency';
   currenciesEndPoint = `http://data.fixer.io/api/symbols?access_key=${this.API_KEY}`;
   convertEndPoint = `http://data.fixer.io/api/convert?access_key=${this.API_KEY}`;
   latestRateEndPoint = `https://data.fixer.io/api/latest?access_key=${this.API_KEY}`;
+
+  fromCurrency = new BehaviorSubject<currency | null>(null);
+  toCurrency = new BehaviorSubject<currency | null>(null);
   getCurrencies() {
     return new Promise((resolve, reject) => {
       this.http

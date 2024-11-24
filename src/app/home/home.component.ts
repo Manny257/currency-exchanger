@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ExchangeComponent } from '../exchange/exchange.component';
 import { Router } from '@angular/router';
 import { ConversionsListComponent } from '../conversions-list/conversions-list.component';
+import { DataService } from '../../services/data.service';
+import { currency } from '../../models/currencies.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,23 +13,34 @@ import { ConversionsListComponent } from '../conversions-list/conversions-list.c
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
-  constructor(private router: Router) {}
-  fromCurrency: string = '';
-  toCurrency: string = '';
-  changeFromCurrency(value: string) {
-    this.fromCurrency = value;
-  }
-  changeToCurrency(value: string) {
-    this.toCurrency = value;
+export class HomeComponent implements OnInit, OnDestroy {
+  constructor(private router: Router, private dataService: DataService) {}
+  fromCurrency!: currency | null;
+  toCurrency!: currency | null;
+  fromCurrencySubscribtion!: Subscription;
+  toCurrencySubscribtion!: Subscription;
+  fixedAmountsList: number[] = [1, 25, 50, 100];
+
+  ngOnInit() {
+    this.fromCurrencySubscribtion = this.dataService.fromCurrency.subscribe(
+      (currency) => {
+        this.fromCurrency = currency;
+      }
+    );
+
+    this.toCurrencySubscribtion = this.dataService.toCurrency.subscribe(
+      (currency) => {
+        this.toCurrency = currency;
+      }
+    );
   }
 
   openDetailsPage() {
-    this.router.navigate(['/details'], {
-      queryParams: {
-        fromCurrency: this.fromCurrency,
-        toCurrency: this.toCurrency,
-      },
-    });
+    this.router.navigate(['/details']);
+  }
+
+  ngOnDestroy() {
+    this.fromCurrencySubscribtion.unsubscribe();
+    this.toCurrencySubscribtion.unsubscribe();
   }
 }

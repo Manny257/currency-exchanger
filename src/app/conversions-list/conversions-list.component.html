@@ -1,28 +1,33 @@
 <div class="list-container">
-  <div class="list-items">
+
+  <div class="conversions-table">
+    <h4> {{fromCurrency?.symbol}} to {{toCurrency?.symbol}} Conversions</h4>
     <table>
       @for (amount of amountsList; track amount){
       <tr>
         <td>{{amount}}</td>
-        <td> <b> {{fromCurrency}}</b></td>
+        <td> <b> {{fromCurrency?.symbol}}</b></td>
+        <td> &rarr; </td>
         <td>{{amount*latestRate}}</td>
-        <td> <b> {{toCurrency}}</b> </td>
+        <td> <b> {{toCurrency?.symbol}}</b> </td>
       </tr>
       }
-
     </table>
   </div>
 
-  <div class="list-items">
-    <ul>
+
+  <div class="conversions-table">
+    <h4> {{toCurrency?.symbol}} to {{fromCurrency?.symbol}} Conversions</h4>
+    <table>
       @for (amount of amountsList; track amount){
       <tr>
         <td>{{amount}}</td>
-        <td> <b>{{toCurrency}} </b> </td>
+        <td> <b>{{toCurrency?.symbol}} </b> </td>
+        <td> &rarr; </td>
         <td>{{amount/latestRate}}</td>
-        <td><b> {{fromCurrency}}</b></td>
+        <td><b> {{fromCurrency?.symbol}}</b></td>
       </tr>
       }
-    </ul>
+    </table>
   </div>
 </div>

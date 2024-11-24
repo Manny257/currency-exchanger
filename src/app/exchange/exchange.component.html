@@ -3,7 +3,7 @@
     <div class="from-currency">
       <select formControlName="fromCurrency">
         @for( currency of currenciesList; track currency){
-        <option [value]=" currency.symbol">{{currency.symbol + " " +
+        <option [value]="currency.symbol">{{currency.symbol + " " +
           currency.fullName}}</option>
         }
 
@@ -17,7 +17,7 @@
     <div class="to-currency">
       <select formControlName="toCurrency">
         @for( currency of currenciesList; track currency){
-        <option [value]=" currency.symbol">{{currency.symbol + " " +
+        <option [value]="currency.symbol">{{currency.symbol + " " +
           currency.fullName}}</option>
         }
       </select>

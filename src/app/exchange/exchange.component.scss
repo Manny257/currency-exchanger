@@ -2,7 +2,6 @@
   display: flex;
   gap: 2rem;
   flex-direction: row;
-  margin-top: 2rem;
   @media (max-width: 860px) {
     flex-direction: column;
     gap: 1rem;

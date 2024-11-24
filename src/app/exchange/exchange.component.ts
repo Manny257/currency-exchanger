@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import {
   ReactiveFormsModule,
@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { currency } from '../../models/currencies.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exchange',
@@ -15,17 +16,22 @@ import { currency } from '../../models/currencies.model';
   templateUrl: './exchange.component.html',
   styleUrl: './exchange.component.scss',
 })
-export class ExchangeComponent implements OnInit {
-  @Output() fromCurrencyChanged = new EventEmitter();
-  @Output() toCurrencyChanged = new EventEmitter();
+export class ExchangeComponent implements OnInit, OnDestroy {
+  @Input() defaultFromCurrency: currency = {
+    symbol: 'USD',
+    fullName: 'US Dollar',
+  };
+  @Input() defaultToCurrency: currency = { symbol: 'EUR', fullName: 'Euro' };
   currenciesList: currency[] = [];
+  fromCurrencySubscribtion!: Subscription;
+  toCurrencySubscribtion!: Subscription;
   form = new FormGroup({
-    fromCurrency: new FormControl('USD', [Validators.required]),
+    fromCurrency: new FormControl('', [Validators.required]),
     fromAmount: new FormControl<number>(1, [
       Validators.required,
       Validators.min(0),
     ]),
-    toCurrency: new FormControl('EUR', [Validators.required]),
+    toCurrency: new FormControl('', [Validators.required]),
     toAmount: new FormControl<number | null>({ value: null, disabled: true }, [
       Validators.required,
       Validators.min(0),
@@ -219,18 +225,34 @@ export class ExchangeComponent implements OnInit {
       });
     }
     this.subscribeToCurrencyChanges();
+    this.setDefaultValues();
     this.convertCurrency();
   }
 
   subscribeToCurrencyChanges() {
-    this.handleFromCurrencyChange(this.form.controls.fromCurrency.value);
-    this.handleToCurrencyChange(this.form.controls.toCurrency.value);
-    this.form.controls.fromCurrency.valueChanges.subscribe((value) => {
-      this.handleFromCurrencyChange(value);
-    });
-    this.form.controls.toCurrency.valueChanges.subscribe((value) => {
-      this.handleToCurrencyChange(value);
-    });
+    this.fromCurrencySubscribtion =
+      this.form.controls.fromCurrency.valueChanges.subscribe((value) => {
+        let selectedCurrency = this.currenciesList.find(
+          (currency) => currency.symbol == value
+        );
+        if (selectedCurrency) {
+          this.dataService.fromCurrency.next(selectedCurrency);
+        }
+      });
+    this.toCurrencySubscribtion =
+      this.form.controls.toCurrency.valueChanges.subscribe((value) => {
+        let selectedCurrency = this.currenciesList.find(
+          (currency) => currency.symbol == value
+        );
+        if (selectedCurrency) {
+          this.dataService.toCurrency.next(selectedCurrency);
+        }
+      });
+  }
+
+  setDefaultValues() {
+    this.form.controls.fromCurrency.setValue(this.defaultFromCurrency.symbol);
+    this.form.controls.toCurrency.setValue(this.defaultToCurrency.symbol);
   }
 
   swapValues() {
@@ -254,11 +276,16 @@ export class ExchangeComponent implements OnInit {
     }
   }
 
-  handleFromCurrencyChange(value: string | null) {
-    this.fromCurrencyChanged.emit(value);
+  handleFromCurrencyChange(value: currency) {
+    this.dataService.fromCurrency.next(value);
   }
 
-  handleToCurrencyChange(value: string | null) {
-    this.toCurrencyChanged.emit(value);
+  handleToCurrencyChange(value: currency) {
+    this.dataService.toCurrency.next(value);
+  }
+
+  ngOnDestroy() {
+    this.fromCurrencySubscribtion.unsubscribe();
+    this.toCurrencySubscribtion.unsubscribe();
   }
 }
