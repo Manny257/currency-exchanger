@@ -265,7 +265,7 @@ export class ExchangeComponent implements OnInit, OnDestroy {
     const fromAmount = this.form.controls.fromAmount.value;
     const toAmountControl = this.form.controls.toAmount;
     if (fromCurreny && toCurreny && fromAmount) {
-      //uncomment to get data from API
+      //uncomment to get data from API; remove the setted value and add the converted value directly
       // this.dataService
       //   .convertCurrencies(fromCurreny, toCurreny, fromAmount)
       //   .then((convertedValue) => {
