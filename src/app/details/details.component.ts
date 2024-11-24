@@ -25,17 +25,17 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     null;
   fromCurrency!: currency;
   toCurrency!: currency;
-  fromCurrencySubscribtion!: Subscription;
-  toCurrencySubscribtion!: Subscription;
+  fromCurrencySubscription!: Subscription;
+  toCurrencySubscription!: Subscription;
   fixedCurrenciesList = ['USD', 'EUR', 'AUD', 'CAD'];
 
   ngOnInit() {
-    this.fromCurrencySubscribtion = this.dataService.fromCurrency.subscribe(
+    this.fromCurrencySubscription = this.dataService.fromCurrency.subscribe(
       (currency) => {
         if (currency) this.fromCurrency = currency;
       }
     );
-    this.toCurrencySubscribtion = this.dataService.toCurrency.subscribe(
+    this.toCurrencySubscription = this.dataService.toCurrency.subscribe(
       (currency) => {
         if (currency) this.toCurrency = currency;
       }
@@ -50,7 +50,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.fromCurrencySubscribtion.unsubscribe();
-    this.toCurrencySubscribtion.unsubscribe();
+    this.fromCurrencySubscription.unsubscribe();
+    this.toCurrencySubscription.unsubscribe();
   }
 }

@@ -23,8 +23,8 @@ export class ExchangeComponent implements OnInit, OnDestroy {
   };
   @Input() defaultToCurrency: currency = { symbol: 'EUR', fullName: 'Euro' };
   currenciesList: currency[] = [];
-  fromCurrencySubscribtion!: Subscription;
-  toCurrencySubscribtion!: Subscription;
+  fromCurrencySubscription!: Subscription;
+  toCurrencySubscription!: Subscription;
   form = new FormGroup({
     fromCurrency: new FormControl('', [Validators.required]),
     fromAmount: new FormControl<number>(1, [
@@ -230,7 +230,7 @@ export class ExchangeComponent implements OnInit, OnDestroy {
   }
 
   subscribeToCurrencyChanges() {
-    this.fromCurrencySubscribtion =
+    this.fromCurrencySubscription =
       this.form.controls.fromCurrency.valueChanges.subscribe((value) => {
         let selectedCurrency = this.currenciesList.find(
           (currency) => currency.symbol == value
@@ -239,7 +239,7 @@ export class ExchangeComponent implements OnInit, OnDestroy {
           this.dataService.fromCurrency.next(selectedCurrency);
         }
       });
-    this.toCurrencySubscribtion =
+    this.toCurrencySubscription =
       this.form.controls.toCurrency.valueChanges.subscribe((value) => {
         let selectedCurrency = this.currenciesList.find(
           (currency) => currency.symbol == value
@@ -272,7 +272,7 @@ export class ExchangeComponent implements OnInit, OnDestroy {
       // this.dataService
       //   .convertCurrencies(fromCurreny, toCurreny, fromAmount)
       //   .then((convertedValue) => {
-      toAmountControl.setValue(2 * fromAmount); // });
+      toAmountControl.setValue(1.08 * fromAmount); // });
     }
   }
 
@@ -285,7 +285,7 @@ export class ExchangeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.fromCurrencySubscribtion.unsubscribe();
-    this.toCurrencySubscribtion.unsubscribe();
+    this.fromCurrencySubscription.unsubscribe();
+    this.toCurrencySubscription.unsubscribe();
   }
 }

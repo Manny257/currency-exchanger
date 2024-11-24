@@ -17,18 +17,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private dataService: DataService) {}
   fromCurrency!: currency | null;
   toCurrency!: currency | null;
-  fromCurrencySubscribtion!: Subscription;
-  toCurrencySubscribtion!: Subscription;
+  fromCurrencySubscription!: Subscription;
+  toCurrencySubscription!: Subscription;
   fixedAmountsList: number[] = [1, 25, 50, 100];
 
   ngOnInit() {
-    this.fromCurrencySubscribtion = this.dataService.fromCurrency.subscribe(
+    this.fromCurrencySubscription = this.dataService.fromCurrency.subscribe(
       (currency) => {
         this.fromCurrency = currency;
       }
     );
 
-    this.toCurrencySubscribtion = this.dataService.toCurrency.subscribe(
+    this.toCurrencySubscription = this.dataService.toCurrency.subscribe(
       (currency) => {
         this.toCurrency = currency;
       }
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.fromCurrencySubscribtion.unsubscribe();
-    this.toCurrencySubscribtion.unsubscribe();
+    this.fromCurrencySubscription.unsubscribe();
+    this.toCurrencySubscription.unsubscribe();
   }
 }

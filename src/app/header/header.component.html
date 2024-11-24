@@ -10,8 +10,8 @@
     <img src="assets/images/close.svg" (click)="openCloseMenu()" />
     }
 
-    <a [routerLink]="['./USD']"> USD </a>
-    <a [routerLink]="['./EUR']"> EUR </a>
-    <a [routerLink]="['./details']"> Conversion Details </a>
+    <a [routerLink]="['./USD']" (click)="openCloseMenu()"> USD </a>
+    <a [routerLink]="['./EUR']" (click)="openCloseMenu()"> EUR </a>
+    <a [routerLink]="['./details']" (click)="openCloseMenu()"> Conversion Details </a>
   </div>
 </header>

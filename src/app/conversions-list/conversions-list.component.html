@@ -6,10 +6,10 @@
     <table>
       @for (amount of amountsList; track amount){
       <tr>
-        <td>{{amount}}</td>
+        <td>{{amount | number: '1.0-1'}}</td>
         <td> <b> {{fromCurrency.symbol}}</b></td>
         <td> &rarr; </td>
-        <td>{{amount*latestRate[toCurrency.symbol]}}</td>
+        <td>{{amount*latestRate[toCurrency.symbol] | number: '1.0-1'}}</td>
         <td> <b> {{toCurrency.symbol}}</b> </td>
       </tr>
       }
@@ -22,10 +22,10 @@
     <table>
       @for (amount of amountsList; track amount){
       <tr>
-        <td>{{amount}}</td>
+        <td>{{amount | number: '1.0-1'}}</td>
         <td> <b>{{toCurrency.symbol}} </b> </td>
         <td> &rarr; </td>
-        <td>{{amount/latestRate[toCurrency.symbol]}}</td>
+        <td>{{amount/latestRate[toCurrency.symbol]| number: '1.0-1'}}</td>
         <td><b> {{fromCurrency.symbol}}</b></td>
       </tr>
       }

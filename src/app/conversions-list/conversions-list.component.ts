@@ -2,11 +2,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { currency, latestRateResponse } from '../../models/currencies.model';
 import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-conversions-list',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './conversions-list.component.html',
   styleUrl: './conversions-list.component.scss',
 })
@@ -21,18 +22,18 @@ export class ConversionsListComponent implements OnInit, OnDestroy {
     AUD: 1.5,
     CAD: 2.5,
   };
-  fromCurrencySubscribtion!: Subscription;
-  toCurrencySubscribtion!: Subscription;
+  fromCurrencySubscription!: Subscription;
+  toCurrencySubscription!: Subscription;
 
   constructor(private dataService: DataService) {}
   ngOnInit() {
     this.getLatestRate();
-    this.fromCurrencySubscribtion = this.dataService.fromCurrency.subscribe(
+    this.fromCurrencySubscription = this.dataService.fromCurrency.subscribe(
       (currency) => {
         this.fromCurrency = currency;
       }
     );
-    this.toCurrencySubscribtion = this.dataService.toCurrency.subscribe(
+    this.toCurrencySubscription = this.dataService.toCurrency.subscribe(
       (currency) => {
         this.toCurrency = currency;
       }
@@ -54,7 +55,7 @@ export class ConversionsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.fromCurrencySubscribtion.unsubscribe();
-    this.toCurrencySubscribtion.unsubscribe();
+    this.fromCurrencySubscription.unsubscribe();
+    this.toCurrencySubscription.unsubscribe();
   }
 }
