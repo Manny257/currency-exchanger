@@ -42,7 +42,7 @@
         <td>1</td>
         <td> <b> {{fromCurrency.symbol}}</b></td>
         <td> &rarr; </td>
-        <td>{{latestRate[currency]}}</td>
+        <td>{{latestRate[currency] | number: '1.0-1'}}</td>
         <td> <b> {{currency}}</b> </td>
       </tr>
       }
@@ -58,7 +58,7 @@
         <td>1</td>
         <td> <b> {{currency}}</b></td>
         <td> &rarr; </td>
-        <td>{{1/latestRate[currency]}}</td>
+        <td>{{1/latestRate[currency]| number: '1.0-1'}}</td>
         <td> <b> {{fromCurrency.symbol}}</b> </td>
       </tr>
       }

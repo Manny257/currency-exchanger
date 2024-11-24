@@ -23,7 +23,7 @@ export class DataService {
   fromCurrency = new BehaviorSubject<currency | null>(null);
   toCurrency = new BehaviorSubject<currency | null>(null);
   getCurrencies() {
-    return new Promise((resolve, reject) => {
+    return new Promise<currency[]>((resolve, reject) => {
       this.http
         .get<currenciesResponse>(this.currenciesEndPoint)
         .subscribe((response) => {
@@ -60,7 +60,7 @@ export class DataService {
   }
 
   getLatestRate(base: string, symbols: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<{ [key: string]: number }>((resolve, reject) => {
       const params = new HttpParams().set('base', base).set('symbols', symbols);
       this.http
         .get<latestRateResponse>(this.latestRateEndPoint, { params })

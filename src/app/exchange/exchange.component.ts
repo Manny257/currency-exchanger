@@ -217,13 +217,9 @@ export class ExchangeComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    // this.dataService.getCurrencies().then((currenciesList)=> {this.currenciesList = [...currenciesList]}, error=>{})
-    if (this.response.success) {
-      Object.entries(this.response.symbols).forEach((entry) => {
-        let currencyObj: currency = { symbol: entry[0], fullName: entry[1] };
-        this.currenciesList.push(currencyObj);
-      });
-    }
+    this.dataService.getCurrencies().then((currenciesList) => {
+      this.currenciesList = [...currenciesList];
+    });
     this.subscribeToCurrencyChanges();
     this.setDefaultValues();
     this.convertCurrency();
@@ -269,6 +265,7 @@ export class ExchangeComponent implements OnInit, OnDestroy {
     const fromAmount = this.form.controls.fromAmount.value;
     const toAmountControl = this.form.controls.toAmount;
     if (fromCurreny && toCurreny && fromAmount) {
+      //uncomment to get data from API
       // this.dataService
       //   .convertCurrencies(fromCurreny, toCurreny, fromAmount)
       //   .then((convertedValue) => {

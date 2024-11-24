@@ -27,7 +27,6 @@ export class ConversionsListComponent implements OnInit, OnDestroy {
 
   constructor(private dataService: DataService) {}
   ngOnInit() {
-    this.getLatestRate();
     this.fromCurrencySubscription = this.dataService.fromCurrency.subscribe(
       (currency) => {
         this.fromCurrency = currency;
@@ -38,6 +37,7 @@ export class ConversionsListComponent implements OnInit, OnDestroy {
         this.toCurrency = currency;
       }
     );
+    //this.getLatestRate(); uncomment to get data from API
   }
 
   getLatestRate() {
@@ -47,11 +47,12 @@ export class ConversionsListComponent implements OnInit, OnDestroy {
     } else {
       symbols = this.toCurrency?.symbol ? this.toCurrency?.symbol : '';
     }
-    // this.dataService
-    //   .getLatestRate(this.fromCurrency, symbols)
-    //   .then((rates) => {
-    //     this.latestRate = rates;
-    //   });
+    if (this.fromCurrency)
+      this.dataService
+        .getLatestRate(this.fromCurrency?.symbol, symbols)
+        .then((rates) => {
+          this.latestRate = rates;
+        });
   }
 
   ngOnDestroy() {
